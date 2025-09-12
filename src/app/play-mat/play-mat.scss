@@ -1,0 +1,39 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.basket {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 280px;
+  width: 280px;
+}
+
+.border {
+  border: black 2px solid;
+}
+
+.toss-anim {
+  animation: toss 1s forwards;
+  animation-timing-function: linear
+}
+
+@keyframes toss {
+  from {
+    transform: translateY(0) translateX(0) rotate(0deg);
+  }
+  to {
+    transform: translateY(500px) translateX(500px) rotate(720deg);
+  }
+}

@@ -1,0 +1,48 @@
+<div class="wrapper">
+  <div class="row">
+    <div class="basket" style="position: relative">
+      <span>{{ playerOne.points }}</span>
+      @for (card of playerOne.deck; track $index) {
+        <app-card #playerOneCard [cardType]="card"
+                  [ngStyle]="{
+                    'z-index': decksService.cardCount - $index,
+                    'top': ($index) + 'px',
+                    'left': (3 * $index) - 40 + 'px'}"></app-card>
+      }
+      <span>{{ playerOne.deck.length }}</span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="basket border">
+      <!-- @if (baskets()[0].length !== 0) {
+         <app-card [cardType]="baskets()[0][0]"></app-card>
+       }-->
+    </div>
+    <div class="basket border">
+      <!-- @if (baskets()[1].length !== 0) {
+         <app-card [cardType]="baskets()[1][0]"></app-card>
+       }-->
+    </div>
+    <div class="basket border">
+      <!-- @if (baskets()[2].length !== 0) {
+         <app-card [cardType]="baskets()[2][0]"></app-card>
+       }-->
+    </div>
+  </div>
+  <div>
+    <div class="row">
+      <div class="basket">
+        <span>{{ playerTwo.points }}</span>
+        @for (card of playerTwo.deck; track $index) {
+          <app-card #playerTwoCard [cardType]="card"
+                    [ngStyle]="{
+                    'z-index': decksService.cardCount - $index,
+                    'top': ($index) + 'px',
+                    'left': (3 * $index) - 40 + 'px'}"></app-card>
+        }
+      </div>
+    </div>
+  </div>
+</div>
+
+
