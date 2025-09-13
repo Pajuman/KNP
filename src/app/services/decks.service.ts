@@ -1,5 +1,5 @@
 import {inject, Injectable, signal, WritableSignal} from '@angular/core';
-import {CardType, Thing} from '../interfaces';
+import {CardType, MUSTER_DEFAULT, MUSTER_EXTENDED, Thing} from '../interfaces';
 import {Player} from '../model/Player';
 import {SettingsService} from './settings.service';
 
@@ -8,76 +8,66 @@ import {SettingsService} from './settings.service';
 })
 export class DecksService {
   public baskets: WritableSignal<(CardType)[][]> = signal([[], [], []]);
-  public playerOneDeck: CardType[] = [];
-  public playerTwoDeck: CardType[] = [];
   public playerOne = new Player('one');
   public playerTwo = new Player("two");
-  public cardCount = 0;
-  private musterDefault: Thing[] = Array(8).fill(0).flatMap(() => [Thing.Rock, Thing.Paper, Thing.Scissors]);
-  private musterExtended: Thing[] = Array(5).fill(0).flatMap(() => [Thing.Rock, Thing.Paper, Thing.Lizard, Thing.Spock, Thing.Scissors]);
+  public cardCount;
+  public putNewCardOnTop = true;
+  public isGameOver = false;
   private settingsService: SettingsService = inject(SettingsService);
 
   constructor() {
-    this.generateDeck(this.playerOneDeck, this.playerOne);
-    this.generateDeck(this.playerTwoDeck, this.playerTwo);
-    this.playerOne.deck = this.playerOneDeck;
-    this.playerTwo.deck = this.playerTwoDeck;
-  }
-
-  public throwCard(player: Player, toWhere: 0 | 1 | 2) {
-    const deck = player.deck
-    player.forbidPermission(this.settingsService.speed);
-
-    //ToDo konec hry
-    if (deck.length === 0) {
-      this.endGame();
-    }
-    return this.landedCardIsWeaker(deck[player.topCardIndex], toWhere);
-  }
-
-  private generateDeck(playerDeck: CardType[], player: Player) {
     this.cardCount = this.settingsService.thingsRange === 'default' ? 24 : 25;
-    const muster = this.settingsService.thingsRange === 'default' ? [...this.musterDefault] : [...this.musterExtended];
+    this.generateDeck(this.playerOne);
+    this.generateDeck(this.playerTwo);
+  }
+
+  public handleThrownCard(player: Player, toWhere: 0 | 1 | 2) {
+    const deck = player.deck
+    const newCard = deck[player.topCardIndex];
+    player.forbidPermission(this.settingsService.speed);
+    this.handleNewCard(newCard, toWhere);
+    this.checkEndGame(deck);
+  }
+
+  private generateDeck(player: Player) {
+    const muster = this.settingsService.thingsRange === 'default' ? [...MUSTER_DEFAULT] : [...MUSTER_EXTENDED];
+    let idIndex = 0;
     while (muster.length > 0) {
       const rnd = Math.floor(Math.random() * muster.length);
       const card: CardType = {
         player: player,
         cardType: muster[rnd] as Thing,
-        points: 1
+        points: 1,
+        id: idIndex++
       }
       muster.splice(rnd, 1);
-      playerDeck.push(card);
+      player.deck.push(card);
     }
   }
 
-  private landedCardIsWeaker(newCard: CardType, basketIndex: 0 | 1 | 2) {
+  private handleNewCard(newCard: CardType, basketIndex: 0 | 1 | 2) {
     const basket = this.baskets()[basketIndex];
-    if (basket.length === 0) {
-      basket.unshift(newCard);
-      return false;
-    }
+    this.putNewCardOnTop = true;
+    if (basket.length > 0) {
+      const currentCard = basket[0];
 
-    const currentCard = basket[0];
-    if (newCard.cardType === currentCard.cardType) {
-      const player = currentCard.player;
-      player.points[basketIndex] += currentCard.points;
-      player.points = [...player.points];
-      basket.unshift(newCard);
-      return false;
-    }
+      // card types match - give points to player
+      if (newCard.cardType === currentCard.cardType) {
 
-    const newCardIsStronger = this.isNewCardStronger(newCard, currentCard);
-    if (newCardIsStronger) {
-      console.log(1);
-      newCard.points += currentCard.points;
-      basket.unshift(newCard);
-      return false;
-    } else {
-      console.log(2);
-      currentCard.points += newCard.points;
-      basket.splice(1, 0, newCard);
-      return true;
+        const player = currentCard.player;
+        player.points[basketIndex] += currentCard.points;
+        player.points = [...player.points];
+      }
+      // one of two cards win, increases its point value and is put on top
+      else {
+        this.putNewCardOnTop = this.isNewCardStronger(newCard, currentCard);
+        this.putNewCardOnTop
+          ? (newCard.points += currentCard.points)
+          : (currentCard.points += newCard.points);
+        console.log(this.putNewCardOnTop);
+      }
     }
+    basket.unshift(newCard);
   }
 
   private isNewCardStronger(newCard: CardType, currentCard: CardType) {
@@ -95,8 +85,11 @@ export class DecksService {
     }
   }
 
-  private endGame() {
-    this.playerOne.permission = false;
-    this.playerTwo.permission = false;
+  private checkEndGame(deck: CardType[]) {
+    if (deck.length === 0) {
+      this.playerOne.permission = false;
+      this.playerTwo.permission = false;
+      this.isGameOver = true;
+    }
   }
 }

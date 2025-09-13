@@ -45,6 +45,7 @@ export class PlayMat implements OnInit {
   handleKeyDown(event: KeyboardEvent) {
     let basket: 0 | 1 | 2 | null = null;
     let player: Player | null = null;
+
     switch (event.key) {
       case 'a':
         basket = 0;
@@ -71,30 +72,22 @@ export class PlayMat implements OnInit {
         player = this.playerTwo;
         break;
     }
-    if (basket !== null && player) {
-      if (player.permission) {
-        const cardThrownIsWeaker = this.decksService.throwCard(player, basket);
-        const z = cardThrownIsWeaker ? this.z : this.z++;
-        const playerElements = player.name === 'one' ? this.playerOneCardElements() : this.playerTwoCardElements();
-
-        if (cardThrownIsWeaker) {
-          /*
-                    this.increaseZ(this.baskets()[basket][0].);
-          */
-        }
-        const cardEl = playerElements[player.topCardIndex].nativeElement;
-        console.log(cardEl);
-        const [targetX, targetY, targetRotate] = this.animationService.animateCard(player, basket);
-        this.renderCard(cardEl, targetX, targetY, targetRotate, z);
-        player.topCardIndex++;
+    if (basket !== null && player && player.permission) {
+      this.decksService.handleThrownCard(player, basket);
+      this.renderThrownCard(player, basket);
+      if (!this.decksService.putNewCardOnTop) {
+        this.increaseZ(basket);
       }
-
-
+      player.topCardIndex++;
     }
   }
 
-  private renderCard(cardEl: ElementRef<any>, targetX: number, targetY: number, targetRotate: number, z: number) {
-    this.renderer.setStyle(cardEl, 'z-index', z);
+  private renderThrownCard(player: Player, basket: 0 | 1 | 2) {
+    const newCardZ = this.decksService.putNewCardOnTop ? this.z++ : this.z;
+    const playerElements = player.name === 'one' ? this.playerOneCardElements() : this.playerTwoCardElements();
+    const cardEl = playerElements[player.topCardIndex].nativeElement;
+    const [targetX, targetY, targetRotate] = this.animationService.animateCard(player, basket);
+    this.renderer.setStyle(cardEl, 'z-index', newCardZ);
     this.renderer.setStyle(cardEl, 'transform', 'translateX(0px) translateY(0px) rotate(0deg)');
     this.renderer.setStyle(cardEl, 'transition', 'transform 1s linear');
 
@@ -107,7 +100,12 @@ export class PlayMat implements OnInit {
     }, 50);
   }
 
-  private increaseZ(cardEl: ElementRef<any>) {
+  private increaseZ(basketIndex: 0 | 1 | 2) {
+    const card = this.baskets()[basketIndex][1];
+    const cardId = card.id;
+    const player = card.player
+    const cardElements = player.name === 'one' ? this.playerOneCardElements() : this.playerTwoCardElements();
+    const cardEl = cardElements[cardId].nativeElement;
     this.renderer.setStyle(cardEl, 'z-index', this.z++);
   };
 }
