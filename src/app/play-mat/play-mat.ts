@@ -1,13 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  HostListener,
-  inject,
-  OnInit,
-  Renderer2,
-  viewChildren,
-  WritableSignal
-} from '@angular/core';
+import {Component, ElementRef, HostListener, inject, OnInit, Renderer2, viewChildren} from '@angular/core';
 import {Card} from '../card/card';
 import {CardType} from '../interfaces';
 import {DecksService} from '../services/decks.service';
@@ -25,9 +16,9 @@ import {AnimationService} from '../services/animation.service';
   styleUrl: './play-mat.scss',
 })
 export class PlayMat implements OnInit {
+  public topCards!: (CardType | null)[];
   protected playerOne!: Player;
   protected playerTwo!: Player;
-  protected baskets!: WritableSignal<(CardType)[][]>;
   protected readonly decksService = inject(DecksService);
   protected readonly animationService = inject(AnimationService);
   private readonly renderer = inject(Renderer2);
@@ -38,7 +29,7 @@ export class PlayMat implements OnInit {
   ngOnInit(): void {
     this.playerOne = this.decksService.playerOne;
     this.playerTwo = this.decksService.playerTwo;
-    this.baskets = this.decksService.baskets;
+    this.topCards = this.decksService.topCards;
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -83,7 +74,8 @@ export class PlayMat implements OnInit {
   }
 
   private renderThrownCard(player: Player, basket: 0 | 1 | 2) {
-    const newCardZ = this.decksService.putNewCardOnTop ? this.z++ : this.z;
+    const newCardZ = this.decksService.putNewCardOnTop ? ++this.z : this.z;
+
     const playerElements = player.name === 'one' ? this.playerOneCardElements() : this.playerTwoCardElements();
     const cardEl = playerElements[player.topCardIndex].nativeElement;
     const [targetX, targetY, targetRotate] = this.animationService.animateCard(player, basket);
@@ -101,11 +93,11 @@ export class PlayMat implements OnInit {
   }
 
   private increaseZ(basketIndex: 0 | 1 | 2) {
-    const card = this.baskets()[basketIndex][1];
+    const card = this.topCards[basketIndex] as CardType;
     const cardId = card.id;
     const player = card.player
     const cardElements = player.name === 'one' ? this.playerOneCardElements() : this.playerTwoCardElements();
     const cardEl = cardElements[cardId].nativeElement;
-    this.renderer.setStyle(cardEl, 'z-index', this.z++);
+    this.renderer.setStyle(cardEl, 'z-index', ++this.z);
   };
 }

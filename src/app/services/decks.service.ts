@@ -1,4 +1,4 @@
-import {inject, Injectable, signal, WritableSignal} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {CardType, MUSTER_DEFAULT, MUSTER_EXTENDED, Thing} from '../interfaces';
 import {Player} from '../model/Player';
 import {SettingsService} from './settings.service';
@@ -7,12 +7,13 @@ import {SettingsService} from './settings.service';
   providedIn: 'root'
 })
 export class DecksService {
-  public baskets: WritableSignal<(CardType)[][]> = signal([[], [], []]);
+  public baskets: (CardType)[][] = [[], [], []];
   public playerOne = new Player('one');
   public playerTwo = new Player("two");
   public cardCount;
   public putNewCardOnTop = true;
   public isGameOver = false;
+  public topCards: (CardType | null)[] = [null, null, null];
   private settingsService: SettingsService = inject(SettingsService);
 
   constructor() {
@@ -46,28 +47,31 @@ export class DecksService {
   }
 
   private handleNewCard(newCard: CardType, basketIndex: 0 | 1 | 2) {
-    const basket = this.baskets()[basketIndex];
+    const topcard = this.topCards[basketIndex];
     this.putNewCardOnTop = true;
-    if (basket.length > 0) {
-      const currentCard = basket[0];
+    if (topcard) {
 
       // card types match - give points to player
-      if (newCard.cardType === currentCard.cardType) {
-
-        const player = currentCard.player;
-        player.points[basketIndex] += currentCard.points;
+      if (newCard.cardType === topcard.cardType) {
+        const player = topcard.player;
+        player.points[basketIndex] += topcard.points;
         player.points = [...player.points];
+        this.topCards[basketIndex] = newCard;
       }
       // one of two cards win, increases its point value and is put on top
       else {
-        this.putNewCardOnTop = this.isNewCardStronger(newCard, currentCard);
-        this.putNewCardOnTop
-          ? (newCard.points += currentCard.points)
-          : (currentCard.points += newCard.points);
-        console.log(this.putNewCardOnTop);
+        this.putNewCardOnTop = this.isNewCardStronger(newCard, topcard);
+        if (this.putNewCardOnTop) {
+          newCard.points += topcard.points;
+          this.topCards[basketIndex] = newCard;
+        } else {
+          topcard.points += newCard.points
+        }
       }
+    } else {
+      this.topCards[basketIndex] = newCard;
     }
-    basket.unshift(newCard);
+    this.baskets[basketIndex].unshift(newCard);
   }
 
   private isNewCardStronger(newCard: CardType, currentCard: CardType) {
