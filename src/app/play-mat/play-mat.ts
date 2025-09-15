@@ -95,7 +95,7 @@ export class PlayMat implements OnInit {
         'transform',
         `translateX(${targetX}px) translateY(${targetY}px) rotate(${targetRotate}deg)`
       );
-    }, 50);
+    }, 10);
   }
 
   private increaseZ(basketIndex: 0 | 1 | 2) {
