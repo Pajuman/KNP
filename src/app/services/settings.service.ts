@@ -7,5 +7,5 @@ import {Speed} from '../interfaces';
 export class SettingsService {
   public thingsRange: 'default' | 'extended' = 'extended';
   public mode: 'tutorial' | 'advanced' | 'expert' = 'expert';
-  public speed: Speed = Speed.slow;
+  public speed: Speed = Speed.fast;
 }

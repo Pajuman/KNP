@@ -5,6 +5,7 @@ import {DecksService} from '../services/decks.service';
 import {Player} from '../model/Player';
 import {NgStyle} from '@angular/common';
 import {AnimationService} from '../services/animation.service';
+import {SettingsService} from '../services/settings.service';
 
 @Component({
   selector: 'app-play-mat',
@@ -21,6 +22,7 @@ export class PlayMat implements OnInit {
   protected playerTwo!: Player;
   protected readonly decksService = inject(DecksService);
   protected readonly animationService = inject(AnimationService);
+  protected readonly settingsService = inject(SettingsService);
   private readonly renderer = inject(Renderer2);
   private playerOneCardElements = viewChildren('playerOneCard', {read: ElementRef});
   private playerTwoCardElements = viewChildren('playerTwoCard', {read: ElementRef});
@@ -85,7 +87,7 @@ export class PlayMat implements OnInit {
     const [targetX, targetY, targetRotate] = this.animationService.animateCard(player, basket);
     this.renderer.setStyle(cardEl, 'z-index', newCardZ);
     this.renderer.setStyle(cardEl, 'transform', 'translateX(0px) translateY(0px) rotate(0deg)');
-    this.renderer.setStyle(cardEl, 'transition', 'transform 1s linear');
+    this.renderer.setStyle(cardEl, 'transition', 'transform ' + this.settingsService.speed / 1000 + 's linear');
 
     setTimeout(() => {
       this.renderer.setStyle(
