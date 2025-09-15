@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
-import {PlayMat} from './play-mat/play-mat';
+import {InitialSettings} from './initial-settings/initial-settings';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, PlayMat],
+  imports: [RouterOutlet, InitialSettings],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

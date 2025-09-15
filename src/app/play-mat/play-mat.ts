@@ -26,6 +26,10 @@ export class PlayMat implements OnInit {
   private playerTwoCardElements = viewChildren('playerTwoCard', {read: ElementRef});
   private z = 100;
 
+  constructor() {
+    this.decksService.initiateStartUp();
+  }
+
   ngOnInit(): void {
     this.playerOne = this.decksService.playerOne;
     this.playerTwo = this.decksService.playerTwo;

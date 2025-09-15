@@ -1,0 +1,43 @@
+<h1>Choose wisely</h1>
+<fieldset>
+  <legend>Cards:</legend>
+  <div>
+    <input [(ngModel)]="selectedCards" id="default" name="cards" type="radio" value="default"/>
+    <label for="default">rock, paper, scissors</label>
+  </div>
+  <div>
+    <input [(ngModel)]="selectedCards" id="extended" name="cards" type="radio" value="extended"/>
+    <label for="extended">rock, paper, scissors, lizard, Spock</label>
+  </div>
+</fieldset>
+
+<fieldset>
+  <legend>Mode:</legend>
+  <div>
+    <input [(ngModel)]="selectedMode" id="tutorial" name="mode" type="radio" value="tutorial"/>
+    <label for="tutorial">Tutorial - show value of cards and winning card on top</label>
+  </div>
+  <div>
+    <input [(ngModel)]="selectedMode" id="advanced" name="mode" type="radio" value="advanced"/>
+    <label for="advanced">Advanced - show winning card on top</label>
+  </div>
+  <div>
+    <input [(ngModel)]="selectedMode" id="expert" name="mode" type="radio" value="expert"/>
+    <label for="expert">Expert - last thrown card on top</label>
+  </div>
+</fieldset>
+
+<fieldset>
+  <legend>Speed:</legend>
+  <div>
+    <input [(ngModel)]="selectedSpeed" [value]="Speed.slow" checked id="slow" name="speed" type="radio"/>
+    <label for="slow">slow</label>
+  </div>
+
+  <div>
+    <input [(ngModel)]="selectedSpeed" [value]="Speed.fast" id="fast" name="speed" type="radio"/>
+    <label for="fast">fast</label>
+  </div>
+</fieldset>
+
+<button (click)="startGame()">Ready</button>

@@ -10,14 +10,15 @@ export class DecksService {
   public baskets: (CardType)[][] = [[], [], []];
   public playerOne = new Player('one');
   public playerTwo = new Player("two");
-  public cardCount;
+  public cardCount = 0;
   public putNewCardOnTop = true;
   public isGameOver = false;
   public topCards: (CardType | null)[] = [null, null, null];
   private settingsService: SettingsService = inject(SettingsService);
 
-  constructor() {
+  public initiateStartUp() {
     this.cardCount = this.settingsService.thingsRange === 'default' ? 24 : 25;
+    this.reset();
     this.generateDeck(this.playerOne);
     this.generateDeck(this.playerTwo);
   }
@@ -27,7 +28,7 @@ export class DecksService {
     const newCard = deck[player.topCardIndex];
     player.forbidPermission(this.settingsService.speed);
     this.handleNewCard(newCard, toWhere);
-    this.checkEndGame(deck);
+    this.checkEndGame(player);
   }
 
   private generateDeck(player: Player) {
@@ -89,11 +90,18 @@ export class DecksService {
     }
   }
 
-  private checkEndGame(deck: CardType[]) {
-    if (deck.length === 0) {
+  private checkEndGame(player: Player) {
+    if (player.topCardIndex === (player.deck.length - 1)) {
       this.playerOne.permission = false;
       this.playerTwo.permission = false;
       this.isGameOver = true;
     }
+  }
+
+  private reset() {
+    this.playerOne = new Player('one');
+    this.playerTwo = new Player('two');
+    this.baskets = [[], [], []];
+    this.topCards = [null, null, null];
   }
 }
