@@ -1,4 +1,8 @@
-<div [ngClass]="'player-' + cardType().player.name" class="frame">
-  <span class="points">{{ cardType().points }}</span>
-  <img alt="Card" src="assets/{{ cardType().cardType }}.png" width="150">
+<div [ngClass]="['player-' + cardType().player.name, size()]" class="frame">
+  @if (settingsService.mode !== 'expert') {
+    <span [ngStyle]="{'left.px': size() === 'normal' ? 20 : 10, 'top.px': size() === 'normal' ? 20 : 10,
+    'font-size.px':size() === 'normal' ? 24 : 12}"
+          class="points">{{ cardType().points }}</span>
+  }
+  <img [ngStyle]="{'width.px': size() === 'normal' ? 150 : 75}" alt="Card" src="assets/{{ cardType().cardType }}.png">
 </div>

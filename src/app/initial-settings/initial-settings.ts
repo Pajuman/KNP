@@ -22,7 +22,7 @@ export class InitialSettings {
   private router = inject(Router);
 
   public startGame() {
-    this.settingsService.thingsRange = this.selectedCards;
+    this.settingsService.cardsRange = this.selectedCards;
     this.settingsService.mode = this.selectedMode;
     this.settingsService.speed = this.selectedSpeed;
 

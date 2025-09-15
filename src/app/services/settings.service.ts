@@ -5,7 +5,7 @@ import {Speed} from '../interfaces';
   providedIn: 'root'
 })
 export class SettingsService {
-  public thingsRange: 'default' | 'extended' = 'extended';
-  public mode: 'tutorial' | 'advanced' | 'expert' = 'expert';
+  public cardsRange: 'default' | 'extended' = 'extended';
+  public mode: 'tutorial' | 'advanced' | 'expert' = 'tutorial';
   public speed: Speed = Speed.fast;
 }

@@ -17,7 +17,7 @@ export class DecksService {
   private settingsService: SettingsService = inject(SettingsService);
 
   public initiateStartUp() {
-    this.cardCount = this.settingsService.thingsRange === 'default' ? 24 : 25;
+    this.cardCount = this.settingsService.cardsRange === 'default' ? 24 : 25;
     this.reset();
     this.generateDeck(this.playerOne);
     this.generateDeck(this.playerTwo);
@@ -32,7 +32,7 @@ export class DecksService {
   }
 
   private generateDeck(player: Player) {
-    const muster = this.settingsService.thingsRange === 'default' ? [...MUSTER_DEFAULT] : [...MUSTER_EXTENDED];
+    const muster = this.settingsService.cardsRange === 'default' ? [...MUSTER_DEFAULT] : [...MUSTER_EXTENDED];
     let idIndex = 0;
     while (muster.length > 0) {
       const rnd = Math.floor(Math.random() * muster.length);
