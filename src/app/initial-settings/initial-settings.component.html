@@ -9,6 +9,11 @@
     <input [(ngModel)]="selectedCards" id="extended" name="cards" type="radio" value="extended"/>
     <label for="extended">rock, paper, scissors, lizard, Spock</label>
   </div>
+  @if (selectedCards === 'default') {
+    <img alt="rps diagram" src="assets/rps.png">
+  } @else {
+    <img alt="rpslv diagram" src="assets/rpslv.png">
+  }
 </fieldset>
 
 <fieldset>
@@ -25,6 +30,31 @@
     <input [(ngModel)]="selectedMode" id="expert" name="mode" type="radio" value="expert"/>
     <label for="expert">Expert - last thrown card on top</label>
   </div>
+  <span>All settings apply same rules! They differ only in visualization. </span>
+  <h4>general rules</h4>
+  <p>There are 3 'cups' and players throw cards into these cups.</p>
+  <p>Game ends when one player is out of cards.</p>
+  <p>Each card is worth one point.</p>
+
+  <h4>cards rules</h4>
+  <p>If you throw in card which beats current card in cup (rock beats scissors), then this new card becomes dominant and
+    its point value equals to all cards it dominates +1.</p>
+  <p>If you throw in card which looses to current card in cup (scissors looses to rock), then the winning card remains
+    being dominant card and its point value increases by 1.</p>
+  <p>If you throw a card which is same as current card in cup (scissors and scissors), then the player of current
+    dominant card scores points equal to dominant card's value and new card becomes dominant.</p>
+
+  <h4>evaluation rules</h4>
+  <p>Each cup is evaluated separately.</p>
+  <p>The player with higher score in one cup wins the cup.</p>
+  <p>Player who wins more cups, wins the game.</p>
+  @if (selectedMode === 'tutorial') {
+    <span>Helps visualize the dominant cards and their point value. Dominant card is always shown on top (even it was thrown in past).</span>
+  } @else if (selectedMode === 'advanced') {
+    <span>Helps visualize the dominant cards. Dominant card is always shown on top (even it was thrown in past).</span>
+  } @else {
+    <span>No help - you have to remember, which card is dominant.</span>
+  }
 </fieldset>
 
 <fieldset>
@@ -40,4 +70,6 @@
   </div>
 </fieldset>
 
-<button (click)="startGame()">Ready</button>
+<button (click)="startGame()">Play</button>
+
+

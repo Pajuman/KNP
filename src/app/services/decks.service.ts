@@ -49,9 +49,7 @@ export class DecksService {
     const topcard = this.topCards[basketIndex];
     this.putNewCardOnTop = true;
     if (topcard) {
-
       // card types match - give points to player
-
       if (newCard.cardType === topcard.cardType) {
         const player = topcard.player;
         player.points[basketIndex] += topcard.points;

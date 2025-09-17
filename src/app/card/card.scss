@@ -33,13 +33,13 @@
   position: absolute;
   font-weight: lighter;
 
-  .normal {
+  &.normal {
     top: 20px;
     left: 20px;
     font-size: 24px;
   }
 
-  .small {
+  &.small {
     top: 10px;
     left: 10px;
     font-size: 12px;
