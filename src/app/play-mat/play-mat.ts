@@ -6,6 +6,7 @@ import {Player} from '../model/Player';
 import {NgStyle} from '@angular/common';
 import {AnimationService} from '../services/animation.service';
 import {SettingsService} from '../services/settings.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-play-mat',
@@ -24,9 +25,12 @@ export class PlayMat implements OnInit {
   protected readonly animationService = inject(AnimationService);
   protected readonly settingsService = inject(SettingsService);
   private readonly renderer = inject(Renderer2);
+  private readonly router = inject(Router);
   private playerOneCardElements = viewChildren('playerOneCard', {read: ElementRef});
   private playerTwoCardElements = viewChildren('playerTwoCard', {read: ElementRef});
   private z = 100;
+  private isGameOver = false;
+
 
   constructor() {
     this.decksService.initiateStartUp();
@@ -69,14 +73,20 @@ export class PlayMat implements OnInit {
         player = this.playerTwo;
         break;
     }
-    if (basket !== null && player && player.permission) {
+
+    if (basket !== null && player && player.permission && !this.isGameOver) {
       this.decksService.handleThrownCard(player, basket);
       this.renderThrownCard(player, basket);
       if (!this.decksService.putNewCardOnTop) {
         this.increaseZ(basket);
       }
       player.topCardIndex++;
+      this.checkEndGame(player);
     }
+  }
+
+  public backToSettings() {
+    this.router.navigate(['']);
   }
 
   private renderThrownCard(player: Player, basket: 0 | 1 | 2) {
@@ -106,4 +116,27 @@ export class PlayMat implements OnInit {
     const cardEl = cardElements[cardId].nativeElement;
     this.renderer.setStyle(cardEl, 'z-index', ++this.z);
   };
+
+  private checkEndGame(player: Player) {
+    if (player.topCardIndex === (player.deck.length)) {
+      console.log('now');
+      this.playerOne.permission = false;
+      this.playerTwo.permission = false;
+      this.isGameOver = true;
+      setTimeout(() => this.addPointsFromTopCards(), 1000);
+      setTimeout(() => this.endGame(), 2500);
+    }
+  }
+
+  private addPointsFromTopCards() {
+    for (let i = 0; i === 2; i++) {
+      const card = this.topCards[i] as CardType;
+      const player = card.player;
+      player.points[i] += card.points;
+    }
+  }
+
+  private endGame() {
+    this.router.navigate(['evaluation']);
+  }
 }

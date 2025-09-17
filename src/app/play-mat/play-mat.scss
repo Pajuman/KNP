@@ -4,12 +4,6 @@
   align-items: center;
 }
 
-.row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
 .basket {
   position: relative;
   display: flex;
@@ -27,6 +21,12 @@
 .toss-anim {
   animation: toss 1s forwards;
   animation-timing-function: linear
+}
+
+.back-button {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
 }
 
 @keyframes toss {

@@ -1,5 +1,5 @@
-import {Component, computed, inject, input, InputSignal, Signal} from '@angular/core';
-import {NgClass, NgStyle} from '@angular/common';
+import {Component, HostBinding, inject, input, InputSignal} from '@angular/core';
+import {NgClass} from '@angular/common';
 import {CardType} from '../interfaces';
 import {SettingsService} from '../services/settings.service';
 
@@ -7,7 +7,6 @@ import {SettingsService} from '../services/settings.service';
   selector: 'app-card',
   imports: [
     NgClass,
-    NgStyle
   ],
   templateUrl: './card.html',
   styleUrl: './card.scss'
@@ -15,8 +14,13 @@ import {SettingsService} from '../services/settings.service';
 export class Card {
   public readonly cardType: InputSignal<CardType> = input.required();
   public readonly size = input<'normal' | 'small'>('normal');
-  public readonly imageWidth: Signal<number> = computed(() => this.size() === 'small' ? 75 : 150);
-
+  public readonly showPoints = input<boolean>(true);
+  public readonly isWinningCard = input<boolean>(false);
 
   public readonly settingsService = inject(SettingsService);
+
+  @HostBinding('style.position')
+  get position() {
+    return this.size() === 'normal' ? 'absolute' : 'relative';
+  }
 }

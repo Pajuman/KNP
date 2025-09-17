@@ -9,8 +9,8 @@ import {Router} from '@angular/router';
   imports: [
     FormsModule
   ],
-  templateUrl: './initial-settings.html',
-  styleUrl: './initial-settings.scss'
+  templateUrl: './initial-settings.component.html',
+  styleUrl: './initial-settings.component.scss'
 })
 export class InitialSettings {
   public selectedCards: 'default' | 'extended' = 'default'

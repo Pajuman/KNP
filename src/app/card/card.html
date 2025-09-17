@@ -1,8 +1,16 @@
-<div [ngClass]="['player-' + cardType().player.name, size()]" class="frame">
-  @if (settingsService.mode !== 'expert') {
-    <span [ngStyle]="{'left.px': size() === 'normal' ? 20 : 10, 'top.px': size() === 'normal' ? 20 : 10,
-    'font-size.px':size() === 'normal' ? 24 : 12}"
-          class="points">{{ cardType().points }}</span>
-  }
-  <img [ngStyle]="{'width.px': size() === 'normal' ? 150 : 75}" alt="Card" src="assets/{{ cardType().cardType }}.png">
-</div>
+@if (size() === 'normal') {
+  <div [ngClass]="'player-' + cardType().player.name" class="frame normal">
+    @if (settingsService.mode !== 'expert') {
+      <span class="points normal">{{ cardType().points }}</span>
+    }
+    <img style="width: 150px" alt="Card" src="assets/{{ cardType().cardType }}.png">
+  </div>
+} @else {
+  <div [ngClass]="['player-' + cardType().player.name, isWinningCard() ? 'winning-card': '']" class="frame small">
+    @if (isWinningCard()) {
+      <span class="points small">{{ cardType().points }}</span>
+    }
+    <img style="width: 75px" alt="Card" src="assets/{{ cardType().cardType }}.png">
+  </div>
+}
+

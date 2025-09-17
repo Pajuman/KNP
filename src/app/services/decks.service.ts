@@ -12,7 +12,6 @@ export class DecksService {
   public playerTwo = new Player("two");
   public cardCount = 0;
   public putNewCardOnTop = true;
-  public isGameOver = false;
   public topCards: (CardType | null)[] = [null, null, null];
   private settingsService: SettingsService = inject(SettingsService);
 
@@ -28,7 +27,6 @@ export class DecksService {
     const newCard = deck[player.topCardIndex];
     player.forbidPermission(this.settingsService.speed);
     this.handleNewCard(newCard, toWhere);
-    this.checkEndGame(player);
   }
 
   private generateDeck(player: Player) {
@@ -53,6 +51,7 @@ export class DecksService {
     if (topcard) {
 
       // card types match - give points to player
+
       if (newCard.cardType === topcard.cardType) {
         const player = topcard.player;
         player.points[basketIndex] += topcard.points;
@@ -87,14 +86,6 @@ export class DecksService {
         return currentCard.cardType === Thing.Rock || currentCard.cardType === Thing.Scissors;
       case Thing.Lizard:
         return currentCard.cardType === Thing.Spock || currentCard.cardType === Thing.Paper;
-    }
-  }
-
-  private checkEndGame(player: Player) {
-    if (player.topCardIndex === (player.deck.length - 1)) {
-      this.playerOne.permission = false;
-      this.playerTwo.permission = false;
-      this.isGameOver = true;
     }
   }
 

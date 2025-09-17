@@ -1,0 +1,41 @@
+<div class="column">
+  <div class="row">
+    @for (trick of basketOneTricks; track $index; ) {
+      <div class="row" [ngClass]="trick.winningCard.player.name === 'one' ? 'up' : 'down'">
+        @for (card of trick.cards; track $index) {
+          <app-card [isWinningCard]="trick.winningCard === card" [cardType]="card" [size]="'small'"
+                    [showPoints]="false"></app-card>
+        }
+        @if (!$last) {
+          <span>-></span>
+        }
+      </div>
+    }
+  </div>
+  <div class="row">
+    @for (trick of basketTwoTricks; track $index) {
+      <div class="row" [ngClass]="trick.winningCard.player.name === 'one' ? 'up' : 'down'">
+        @for (card of trick.cards; track $index) {
+          <app-card [isWinningCard]="trick.winningCard === card" [cardType]="card" [size]="'small'"
+                    [showPoints]="false"></app-card>
+        }
+        @if (!$last) {
+          <span>-></span>
+        }
+      </div>
+    }
+  </div>
+  <div class="row">
+    @for (trick of basketThreeTricks; track $index) {
+      <div class="row" [ngClass]="trick.winningCard.player.name === 'one' ? 'up' : 'down'">
+        @for (card of trick.cards; track $index) {
+          <app-card [isWinningCard]="trick.winningCard === card" [cardType]="card" [size]="'small'"
+                    [showPoints]="false"></app-card>
+        }
+        @if (!$last) {
+          <span>-></span>
+        }
+      </div>
+    }
+  </div>
+</div>

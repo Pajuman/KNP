@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { InitialSettings } from './initial-settings';
+import {InitialSettings} from './initial-settings.component';
 
 describe('InitialSettings', () => {
   let component: InitialSettings;
@@ -10,7 +10,7 @@ describe('InitialSettings', () => {
     await TestBed.configureTestingModule({
       imports: [InitialSettings]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(InitialSettings);
     component = fixture.componentInstance;
