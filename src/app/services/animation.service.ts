@@ -17,7 +17,7 @@ export class AnimationService {
 
   private calculateX(player: Player, basket: 0 | 1 | 2) {
     const rnd = Math.floor(Math.random() * 30);
-    const directionCoordinate = basket === 0 ? -220 : basket === 1 ? 62 : 345;
+    const directionCoordinate = basket === 0 ? -253 : basket === 1 ? 47 : 345;
     const currentPositionCoordinate = player.topCardIndex * 3;
 
     return (rnd + directionCoordinate - currentPositionCoordinate);

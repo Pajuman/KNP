@@ -1,8 +1,9 @@
 import {Component, inject} from '@angular/core';
 import {DecksService} from '../services/decks.service';
-import {CardType, Thing, Trick} from '../interfaces';
+import {Trick} from '../interfaces';
 import {NgClass} from '@angular/common';
 import {Card} from '../card/card';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-evaluation',
@@ -15,25 +16,34 @@ import {Card} from '../card/card';
 })
 export class Evaluation {
   public readonly decksService = inject(DecksService);
-  protected basketOneTricks: Trick[] = [];
-  protected basketTwoTricks: Trick[] = [];
-  protected basketThreeTricks: Trick[] = [];
+  public readonly router = inject(Router);
+  protected cupOneTricks: Trick[] = [];
+  protected cupTwoTricks: Trick[] = [];
+  protected cupThreeTricks: Trick[] = [];
+  protected playerOneScore = 0;
+  protected playerTwoScore = 0;
+  protected winner: 'one' | 'two' | 'draw'
 
   constructor() {
-    this.basketOneTricks = this.divideCardsToTricks(0);
-    this.basketTwoTricks = this.divideCardsToTricks(1);
-    this.basketThreeTricks = this.divideCardsToTricks(2);
+    this.cupOneTricks = this.divideCardsToTricks(0);
+    this.cupTwoTricks = this.divideCardsToTricks(1);
+    this.cupThreeTricks = this.divideCardsToTricks(2);
+    this.winner = this.findWinner();
   }
 
-  private divideCardsToTricks(basketIndex: number) {
-    const basket = this.decksService.baskets[basketIndex];
-    let topCard = basket[basket.length - 1];
+  public backToSettings() {
+    this.router.navigate(['']);
+  }
+
+  private divideCardsToTricks(cupIndex: number) {
+    const cup = this.decksService.cups[cupIndex];
+    let topCard = cup[cup.length - 1];
     let currentTrick: Trick = {cards: [topCard], winningCard: topCard};
     const tricks: Trick[] = [];
 
-    for (let i = basket.length - 2; i >= 0; i--) {
-      const newCard = basket[i];
-      const newCardIsStronger = this.isNewCardStronger(newCard, currentTrick.winningCard);
+    for (let i = cup.length - 2; i >= 0; i--) {
+      const newCard = cup[i];
+      const newCardIsStronger = this.decksService.isNewCardStronger(newCard, currentTrick.winningCard);
 
       if (newCardIsStronger === null) {
         tricks.push(currentTrick);
@@ -53,22 +63,24 @@ export class Evaluation {
     return tricks;
   }
 
-  private isNewCardStronger(newCard: CardType, topCard: CardType) {
-    if (newCard.cardType === topCard.cardType) {
-      return null;
+  private findWinner() {
+    for (let i = 0; i <= 2; i++) {
+      const p1 = this.decksService.playerOne.points[i];
+      const p2 = this.decksService.playerTwo.points[i];
+
+      if (p1 > p2) {
+        this.playerOneScore++;
+      } else if (p2 > p1) {
+        this.playerTwoScore++;
+      }
     }
 
-    switch (newCard.cardType) {
-      case Thing.Rock:
-        return topCard.cardType === Thing.Lizard || topCard.cardType === Thing.Scissors;
-      case Thing.Scissors:
-        return topCard.cardType === Thing.Lizard || topCard.cardType === Thing.Paper;
-      case Thing.Paper:
-        return topCard.cardType === Thing.Rock || topCard.cardType === Thing.Spock;
-      case Thing.Spock:
-        return topCard.cardType === Thing.Rock || topCard.cardType === Thing.Scissors;
-      case Thing.Lizard:
-        return topCard.cardType === Thing.Spock || topCard.cardType === Thing.Paper;
+    if (this.playerOneScore > this.playerTwoScore) {
+      return 'one';
+    } else if (this.playerTwoScore > this.playerOneScore) {
+      return 'two';
+    } else {
+      return 'draw';
     }
   }
 }

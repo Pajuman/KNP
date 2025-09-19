@@ -7,7 +7,7 @@ import {SettingsService} from './settings.service';
   providedIn: 'root'
 })
 export class DecksService {
-  public baskets: (CardType)[][] = [[], [], []];
+  public cups: (CardType)[][] = [[], [], []];
   public playerOne = new Player('one');
   public playerTwo = new Player("two");
   public cardCount = 0;
@@ -29,6 +29,25 @@ export class DecksService {
     this.handleNewCard(newCard, toWhere);
   }
 
+  public isNewCardStronger(newCard: CardType, topCard: CardType) {
+    if (newCard.cardType === topCard.cardType) {
+      return null;
+    }
+
+    switch (newCard.cardType) {
+      case Thing.Rock:
+        return topCard.cardType === Thing.Lizard || topCard.cardType === Thing.Scissors;
+      case Thing.Scissors:
+        return topCard.cardType === Thing.Lizard || topCard.cardType === Thing.Paper;
+      case Thing.Paper:
+        return topCard.cardType === Thing.Rock || topCard.cardType === Thing.Spock;
+      case Thing.Spock:
+        return topCard.cardType === Thing.Rock || topCard.cardType === Thing.Scissors;
+      case Thing.Lizard:
+        return topCard.cardType === Thing.Spock || topCard.cardType === Thing.Paper;
+    }
+  }
+
   private generateDeck(player: Player) {
     const muster = this.settingsService.cardsRange === 'default' ? [...MUSTER_DEFAULT] : [...MUSTER_EXTENDED];
     let idIndex = 0;
@@ -45,52 +64,40 @@ export class DecksService {
     }
   }
 
-  private handleNewCard(newCard: CardType, basketIndex: 0 | 1 | 2) {
-    const topcard = this.topCards[basketIndex];
+  private handleNewCard(newCard: CardType, cupIndex: 0 | 1 | 2) {
+    const topCard = this.topCards[cupIndex];
     this.putNewCardOnTop = true;
-    if (topcard) {
+
+    if (topCard) {
+      const newCardIsStronger = this.isNewCardStronger(newCard, topCard);
+
       // card types match - give points to player
-      if (newCard.cardType === topcard.cardType) {
-        const player = topcard.player;
-        player.points[basketIndex] += topcard.points;
+      if (newCardIsStronger === null) {
+        const player = topCard.player;
+        player.points[cupIndex] += topCard.points;
         player.points = [...player.points];
-        this.topCards[basketIndex] = newCard;
+        this.topCards[cupIndex] = newCard;
       }
       // one of two cards win, increases its point value and is put on top
-      else {
-        this.putNewCardOnTop = this.isNewCardStronger(newCard, topcard);
-        if (this.putNewCardOnTop) {
-          newCard.points += topcard.points;
-          this.topCards[basketIndex] = newCard;
-        } else {
-          topcard.points += newCard.points
+      else if (newCardIsStronger) {
+        newCard.points += topCard.points;
+        this.topCards[cupIndex] = newCard;
+      } else {
+        topCard.points += newCard.points
+        if (this.settingsService.mode !== 'expert') {
+          this.putNewCardOnTop = false;
         }
       }
     } else {
-      this.topCards[basketIndex] = newCard;
+      this.topCards[cupIndex] = newCard;
     }
-    this.baskets[basketIndex].unshift(newCard);
-  }
-
-  private isNewCardStronger(newCard: CardType, currentCard: CardType) {
-    switch (newCard.cardType) {
-      case Thing.Rock:
-        return currentCard.cardType === Thing.Lizard || currentCard.cardType === Thing.Scissors;
-      case Thing.Scissors:
-        return currentCard.cardType === Thing.Lizard || currentCard.cardType === Thing.Paper;
-      case Thing.Paper:
-        return currentCard.cardType === Thing.Rock || currentCard.cardType === Thing.Spock;
-      case Thing.Spock:
-        return currentCard.cardType === Thing.Rock || currentCard.cardType === Thing.Scissors;
-      case Thing.Lizard:
-        return currentCard.cardType === Thing.Spock || currentCard.cardType === Thing.Paper;
-    }
+    this.cups[cupIndex].unshift(newCard);
   }
 
   private reset() {
     this.playerOne = new Player('one');
     this.playerTwo = new Player('two');
-    this.baskets = [[], [], []];
+    this.cups = [[], [], []];
     this.topCards = [null, null, null];
   }
 }

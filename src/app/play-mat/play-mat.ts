@@ -119,7 +119,6 @@ export class PlayMat implements OnInit {
 
   private checkEndGame(player: Player) {
     if (player.topCardIndex === (player.deck.length)) {
-      console.log('now');
       this.playerOne.permission = false;
       this.playerTwo.permission = false;
       this.isGameOver = true;
@@ -129,7 +128,7 @@ export class PlayMat implements OnInit {
   }
 
   private addPointsFromTopCards() {
-    for (let i = 0; i === 2; i++) {
+    for (let i = 0; i <= 2; i++) {
       const card = this.topCards[i] as CardType;
       const player = card.player;
       player.points[i] += card.points;

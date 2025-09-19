@@ -1,75 +1,82 @@
 <h1>Choose wisely</h1>
-<fieldset>
-  <legend>Cards:</legend>
-  <div>
-    <input [(ngModel)]="selectedCards" id="default" name="cards" type="radio" value="default"/>
-    <label for="default">rock, paper, scissors</label>
-  </div>
-  <div>
-    <input [(ngModel)]="selectedCards" id="extended" name="cards" type="radio" value="extended"/>
-    <label for="extended">rock, paper, scissors, lizard, Spock</label>
-  </div>
-  @if (selectedCards === 'default') {
-    <img alt="rps diagram" src="assets/rps.png">
-  } @else {
-    <img alt="rpslv diagram" src="assets/rpslv.png">
-  }
-</fieldset>
-
-<fieldset>
-  <legend>Mode:</legend>
-  <div>
-    <input [(ngModel)]="selectedMode" id="tutorial" name="mode" type="radio" value="tutorial"/>
-    <label for="tutorial">Tutorial - show value of cards and winning card on top</label>
-  </div>
-  <div>
-    <input [(ngModel)]="selectedMode" id="advanced" name="mode" type="radio" value="advanced"/>
-    <label for="advanced">Advanced - show winning card on top</label>
-  </div>
-  <div>
-    <input [(ngModel)]="selectedMode" id="expert" name="mode" type="radio" value="expert"/>
-    <label for="expert">Expert - last thrown card on top</label>
-  </div>
-  <span>All settings apply same rules! They differ only in visualization. </span>
-  <h4>general rules</h4>
-  <p>There are 3 'cups' and players throw cards into these cups.</p>
-  <p>Game ends when one player is out of cards.</p>
-  <p>Each card is worth one point.</p>
-
-  <h4>cards rules</h4>
-  <p>If you throw in card which beats current card in cup (rock beats scissors), then this new card becomes dominant and
-    its point value equals to all cards it dominates +1.</p>
-  <p>If you throw in card which looses to current card in cup (scissors looses to rock), then the winning card remains
-    being dominant card and its point value increases by 1.</p>
-  <p>If you throw a card which is same as current card in cup (scissors and scissors), then the player of current
-    dominant card scores points equal to dominant card's value and new card becomes dominant.</p>
-
-  <h4>evaluation rules</h4>
-  <p>Each cup is evaluated separately.</p>
-  <p>The player with higher score in one cup wins the cup.</p>
-  <p>Player who wins more cups, wins the game.</p>
-  @if (selectedMode === 'tutorial') {
-    <span>Helps visualize the dominant cards and their point value. Dominant card is always shown on top (even it was thrown in past).</span>
-  } @else if (selectedMode === 'advanced') {
-    <span>Helps visualize the dominant cards. Dominant card is always shown on top (even it was thrown in past).</span>
-  } @else {
-    <span>No help - you have to remember, which card is dominant.</span>
-  }
-</fieldset>
-
-<fieldset>
-  <legend>Speed:</legend>
-  <div>
-    <input [(ngModel)]="selectedSpeed" [value]="Speed.slow" checked id="slow" name="speed" type="radio"/>
-    <label for="slow">slow</label>
+<div class="overview-column">
+  <div class="setting-block">
+    <h3>Set of cards </h3>
+    <div>
+      <input [(ngModel)]="selectedCards" id="default" name="cards" type="radio" value="default"/>
+      <label for="default">rock, paper, scissors</label>
+    </div>
+    <div>
+      <input [(ngModel)]="selectedCards" id="extended" name="cards" type="radio" value="extended"/>
+      <label for="extended">rock, paper, scissors, lizard, Spock</label>
+    </div>
+    <img [src]="selectedCards === 'default' ? 'assets/rps.png': 'assets/rpslv.png'" alt="rps diagram">
   </div>
 
-  <div>
-    <input [(ngModel)]="selectedSpeed" [value]="Speed.fast" id="fast" name="speed" type="radio"/>
-    <label for="fast">fast</label>
+
+  <div class="setting-block">
+    <h3>Mode </h3>
+    <p>All modes apply same rules! They differ only in visualization. </p>
+    <div>
+      <input [(ngModel)]="selectedMode" id="tutorial" name="mode" type="radio" value="tutorial"/>
+      <label for="tutorial">Tutorial - show value of cards and winning card on top</label>
+    </div>
+    <div>
+      <input [(ngModel)]="selectedMode" id="advanced" name="mode" type="radio" value="advanced"/>
+      <label for="advanced">Advanced - show winning card on top</label>
+    </div>
+    <div>
+      <input [(ngModel)]="selectedMode" id="expert" name="mode" type="radio" value="expert"/>
+      <label for="expert">Expert - last thrown card on top</label>
+    </div>
+    @if (selectedMode === 'tutorial') {
+      <p>Helps visualize the dominant cards and their point value. Dominant card is always shown on top (even it was
+        thrown in past).</p>
+    } @else if (selectedMode === 'advanced') {
+      <p>Helps visualize the dominant cards. Dominant card is always shown on top (even it was thrown in past).</p>
+    } @else {
+      <p>No help - you have to remember, which card is dominant.</p>
+    }
   </div>
-</fieldset>
-
-<button (click)="startGame()">Play</button>
 
 
+  <div class="setting-block">
+    <h3>Speed </h3>
+    <p>Effects speed of cards being thrown. </p>
+
+    <div>
+      <input [(ngModel)]="selectedSpeed" [value]="Speed.slow" checked id="slow" name="speed" type="radio"/>
+      <label for="slow">slow</label>
+    </div>
+
+    <div>
+      <input [(ngModel)]="selectedSpeed" [value]="Speed.fast" id="fast" name="speed" type="radio"/>
+      <label for="fast">fast</label>
+    </div>
+  </div>
+
+  <button (click)="startGame()">Play</button>
+</div>
+
+<h4>controls</h4>
+<p>Player 1: a, s, d</p>
+<p>Player 2: arrows</p>
+
+<h4>general rules</h4>
+<p>There are 3 'cups' and players throw cards into these cups.</p>
+<p>Game ends when one player is out of cards.</p>
+<p>Each card is worth one point.</p>
+
+<h4>cards rules</h4>
+<p>If you throw in card which beats current card in cup (rock beats scissors), then this new card becomes dominant
+  and
+  its point value equals to all cards it dominates +1.</p>
+<p>If you throw in card which looses to current card in cup (scissors looses to rock), then the winning card remains
+  being dominant card and its point value increases by 1.</p>
+<p>If you throw a card which is same as current card in cup (scissors and scissors), then the player of current
+  dominant card scores points equal to dominant card's value and new card becomes dominant.</p>
+
+<h4>evaluation rules</h4>
+<p>Each cup is evaluated separately.</p>
+<p>The player with higher score in one cup wins the cup.</p>
+<p>Player who wins more cups, wins the game.</p>

@@ -1,7 +1,29 @@
-.up {
-  top: -2px;
+.one {
+  color: #6fcccc;
 }
 
-.down {
-  top: 2px;
+.two {
+  color: #cc966f;
+}
+
+.evaluation-row {
+  width: 95%;
+  flex-wrap: wrap;
+  padding: 2rem;
+  border: 2px black dashed;
+  margin: 0.5rem;
+  background-color: #fbf5ec;
+
+  :last-child {
+    margin-left: auto;
+  }
+}
+
+span {
+  font-weight: bold;
+  font-size: 3rem
+}
+
+button {
+  margin-left: 2rem;
 }

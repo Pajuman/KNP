@@ -1,41 +1,59 @@
 <div class="column">
-  <div class="row">
-    @for (trick of basketOneTricks; track $index; ) {
-      <div class="row" [ngClass]="trick.winningCard.player.name === 'one' ? 'up' : 'down'">
+  <div class="row evaluation-row">
+    @for (trick of cupOneTricks; track $index; ) {
+      <div class="row">
         @for (card of trick.cards; track $index) {
           <app-card [isWinningCard]="trick.winningCard === card" [cardType]="card" [size]="'small'"
                     [showPoints]="false"></app-card>
         }
-        @if (!$last) {
-          <span>-></span>
-        }
+        <span style="padding-right: 1.5rem"
+              [ngClass]="trick.winningCard.player.name === 'one' ? 'one':'two'">+{{ trick.winningCard.points }}</span>
       </div>
     }
+    <div style="padding-left: 2rem">
+      <span>Score </span>
+      <span class="one">{{ decksService.playerOne.points[0] }}</span>
+      <span> : </span>
+      <span class="two">{{ decksService.playerTwo.points[0] }}</span>
+    </div>
+
   </div>
-  <div class="row">
-    @for (trick of basketTwoTricks; track $index) {
-      <div class="row" [ngClass]="trick.winningCard.player.name === 'one' ? 'up' : 'down'">
+  <div class="row evaluation-row">
+    @for (trick of cupTwoTricks; track $index) {
+      <div class="row">
         @for (card of trick.cards; track $index) {
           <app-card [isWinningCard]="trick.winningCard === card" [cardType]="card" [size]="'small'"
                     [showPoints]="false"></app-card>
         }
-        @if (!$last) {
-          <span>-></span>
-        }
+        <span style="padding-right: 1.5rem"
+              [ngClass]="trick.winningCard.player.name === 'one' ? 'one':'two'">+{{ trick.winningCard.points }}</span>
       </div>
     }
+    <div style="padding-left: 2rem;">
+      <span>Score </span>
+      <span class="one">{{ decksService.playerOne.points[1] }}</span>
+      <span> : </span>
+      <span class="two">{{ decksService.playerTwo.points[1] }}</span>
+    </div>
   </div>
-  <div class="row">
-    @for (trick of basketThreeTricks; track $index) {
+  <div class="row evaluation-row">
+    @for (trick of cupThreeTricks; track $index) {
       <div class="row" [ngClass]="trick.winningCard.player.name === 'one' ? 'up' : 'down'">
         @for (card of trick.cards; track $index) {
           <app-card [isWinningCard]="trick.winningCard === card" [cardType]="card" [size]="'small'"
                     [showPoints]="false"></app-card>
         }
-        @if (!$last) {
-          <span>-></span>
-        }
+        <span
+          [ngClass]="trick.winningCard.player.name === 'one' ? 'one':'two'">+{{ trick.winningCard.points }}</span>
       </div>
     }
+    <div style="padding-left: 2rem;">
+      <span>Score </span>
+      <span class="one">{{ decksService.playerOne.points[2] }}</span>
+      <span> : </span>
+      <span class="two">{{ decksService.playerTwo.points[2] }}</span>
+    </div>
   </div>
 </div>
+<span>And the winner is... player '{{ winner }}'</span>
+<button (click)="backToSettings()">Back</button>

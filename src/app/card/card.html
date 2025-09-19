@@ -1,6 +1,6 @@
 @if (size() === 'normal') {
   <div [ngClass]="'player-' + cardType().player.name" class="frame normal">
-    @if (settingsService.mode !== 'expert') {
+    @if (settingsService.mode === 'tutorial') {
       <span class="points normal">{{ cardType().points }}</span>
     }
     <img style="width: 150px" alt="Card" src="assets/{{ cardType().cardType }}.png">
