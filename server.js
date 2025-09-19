@@ -3,7 +3,7 @@ const path = require('path');
 const app = express();
 
 // Serve only the static files from dist
-app.use(express.static(path.join(__dirname, 'dist/knp')));
+app.use(express.static(path.join(__dirname, 'dist/knp/browser')));
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/knp/browser/index.html'));
