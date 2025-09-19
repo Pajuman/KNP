@@ -3,10 +3,10 @@ const path = require('path');
 const app = express();
 
 // Serve only the static files from dist
-app.use(express.static(path.join(__dirname, 'dist/your-app-name')));
+app.use(express.static(path.join(__dirname, 'dist/knp')));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist/your-app-name/index.html'));
+  res.sendFile(path.join(__dirname, 'dist/knp/browser/index.html'));
 });
 
 // Use Railway's PORT environment variable
