@@ -1,0 +1,16 @@
+dialog {
+  width: 50%;
+  border-radius: 0.5rem;
+  background-color: #FFFDF8;
+  border: 2px #E0CFA0 solid;
+}
+
+span {
+  display: block;
+  margin: auto;
+  padding-top: 1rem;
+  width: max-content;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+}

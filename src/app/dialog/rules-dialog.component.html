@@ -1,0 +1,29 @@
+<span (click)="dialog.showModal(); isOpened.set(true)">show rules</span>
+<dialog #dialog (cancel)="isOpened.set(false)" (click)="dialog.close(); isOpened.set(false)">
+  <h4>Controls:</h4>
+  <p>Player 1: a, s, d</p>
+  <p>Player 2: arrows</p>
+
+  <h4>Core rules:</h4>
+  <p>There are 3 'cups' and players throw cards into these cups.</p>
+  <p>Game ends when one player is out of cards.</p>
+  <p>Each card is worth one point.</p>
+
+  <h4>Cards rules:</h4>
+  <p>If you throw in card, which beats current card in cup (rock beats scissors), then this new card becomes dominant
+    and
+    its point value equals to all cards it dominates +1.</p>
+  <p>If you throw in card which looses to current card in cup (scissors looses to rock), then the winning card remains
+    being dominant card and its point value increases by 1.</p>
+  <p>If you throw a card which is same as current card in cup (scissors and scissors), then the player of current
+    dominant card scores points equal to dominant card's value and new card becomes dominant.</p>
+
+  <h4>Evaluation rules:</h4>
+  <p>Each cup is evaluated separately.</p>
+  <p>The player with higher score in one cup wins the cup.</p>
+  <p>Player who wins more cups, wins the game!</p>
+
+  <h4>Hint:</h4>
+  <p>If the rules seem complicated, then just try playing in 'Tutorial' mode. You can probably understand the game from
+    observation.</p>
+</dialog>
