@@ -1,7 +1,6 @@
 img {
   display: block;
   margin: 2rem auto 1rem;
-  width: 350px;
 }
 
 .overview-row {
@@ -10,12 +9,27 @@ img {
   justify-content: space-evenly;
 }
 
+.overview-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+
+  input {
+    width: 140px;
+    margin: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.28);
+  }
+}
+
 .transparent-background {
   opacity: 0.2;
 }
 
 
 .setting-block {
+  display: flex;
+  flex-direction: column;
   padding: 1rem;
   margin: 1rem;
   border: 2px #E0CFA0 solid;
@@ -23,6 +37,7 @@ img {
   width: 450px;
   height: 500px;
   background-color: #F5E8D0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.28);
 }
 
 h3 {
@@ -31,8 +46,8 @@ h3 {
 
 button {
   display: block;
-  margin: 0 auto;
+  margin: 1rem auto;
   background-color: #FF6F61;
   color: #FFF;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.28);
 }
-

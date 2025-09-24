@@ -25,7 +25,7 @@ export class AnimationService {
 
   private calculateY(player: Player) {
     const rnd = Math.floor(Math.random() * 30);
-    const directionCoordinate = player.name === 'one' ? 290 : -275;
+    const directionCoordinate = player.id === 'one' ? 290 : -275;
     const currentPositionCoordinate = player.topCardIndex;
 
     return (rnd + directionCoordinate - currentPositionCoordinate);

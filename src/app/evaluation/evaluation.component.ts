@@ -22,7 +22,7 @@ export class Evaluation {
   protected cupThreeTricks: Trick[] = [];
   protected playerOneScore = 0;
   protected playerTwoScore = 0;
-  protected winner: 'one' | 'two' | 'draw'
+  protected winner: string;
 
   constructor() {
     this.cupOneTricks = this.divideCardsToTricks(0);
@@ -76,11 +76,11 @@ export class Evaluation {
     }
 
     if (this.playerOneScore > this.playerTwoScore) {
-      return 'one';
+      return this.decksService.playerOne.name;
     } else if (this.playerTwoScore > this.playerOneScore) {
-      return 'two';
+      return this.decksService.playerTwo.name;
     } else {
-      return 'draw';
+      return 'nobody... draw';
     }
   }
 }

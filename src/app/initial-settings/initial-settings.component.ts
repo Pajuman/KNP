@@ -20,9 +20,8 @@ export class InitialSettings {
   public selectedCards: 'default' | 'extended' = 'default'
   public selectedMode: 'tutorial' | 'advanced' | 'expert' = 'tutorial'
   public selectedSpeed: Speed = Speed.slow
+  public settingsService = inject(SettingsService);
   protected readonly Speed = Speed;
-
-  private settingsService = inject(SettingsService);
   private router = inject(Router);
 
   public startGame() {

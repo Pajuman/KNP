@@ -1,22 +1,21 @@
 <div [ngClass]="{'transparent-background': dialog.isOpened()}">
-  <h1>Pic Nic</h1>
+  <h1 style="padding-left: 1rem">Ropasc</h1>
   <div class="overview-row">
     <div class="setting-block">
       <h3>Set of cards </h3>
       <div>
         <input [(ngModel)]="selectedCards" id="default" name="cards" type="radio" value="default"/>
-        <label for="default">rock, paper, scissors</label>
+        <label for="default">Rock, paper, scissors</label>
       </div>
       <div>
         <input [(ngModel)]="selectedCards" id="extended" name="cards" type="radio" value="extended"/>
-        <label for="extended">rock, paper, scissors, lizard, Spock</label>
+        <label for="extended">Rock, paper, scissors, lizard, Spock</label>
       </div>
       <img [src]="selectedCards === 'default' ? 'assets/rps.png': 'assets/rpslv.png'" alt="rps diagram">
     </div>
 
     <div class="setting-block">
       <h3>Mode </h3>
-      <p>All modes apply same rules! They differ only in visualization. </p>
       <div>
         <input [(ngModel)]="selectedMode" id="tutorial" name="mode" type="radio" value="tutorial"/>
         <label for="tutorial">Tutorial - show value of cards and winning card on top</label>
@@ -37,24 +36,28 @@
       } @else {
         <p>No help - you have to remember, which card is dominant.</p>
       }
+      <p style="margin-top: auto">*All modes apply same rules! They differ only in visualization. </p>
     </div>
 
     <div class="setting-block">
       <h3>Speed </h3>
-      <p>Effects speed of cards being thrown. </p>
-
       <div>
         <input [(ngModel)]="selectedSpeed" [value]="Speed.slow" checked id="slow" name="speed" type="radio"/>
-        <label for="slow">slow</label>
+        <label for="slow">Slow</label>
       </div>
-
       <div>
         <input [(ngModel)]="selectedSpeed" [value]="Speed.fast" id="fast" name="speed" type="radio"/>
-        <label for="fast">fast</label>
+        <label for="fast">Fast</label>
       </div>
+      <p>Effects speed of cards being thrown. </p>
     </div>
   </div>
-  <button (click)="startGame()">Play</button>
-  <app-rules-dialog #dialog></app-rules-dialog>
+
+  <div class="overview-column">
+    <input [(ngModel)]="settingsService.playerOneName" maxlength="15" type="text">
+    <input [(ngModel)]="settingsService.playerTwoName" type="text">
+    <button (click)="startGame()">Play</button>
+    <app-rules-dialog #dialog></app-rules-dialog>
+  </div>
 </div>
 

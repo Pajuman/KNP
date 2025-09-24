@@ -8,8 +8,8 @@ import {SettingsService} from './settings.service';
 })
 export class DecksService {
   public cups: (CardType)[][] = [[], [], []];
-  public playerOne = new Player('one');
-  public playerTwo = new Player("two");
+  public playerOne!: Player;
+  public playerTwo!: Player;
   public cardCount = 0;
   public putNewCardOnTop = true;
   public topCards: (CardType | null)[] = [null, null, null];
@@ -18,6 +18,8 @@ export class DecksService {
   public initiateStartUp() {
     this.cardCount = this.settingsService.cardsRange === 'default' ? 24 : 25;
     this.reset();
+    this.playerOne = new Player(this.settingsService.playerOneName, 'one');
+    this.playerTwo = new Player(this.settingsService.playerTwoName, 'two');
     this.generateDeck(this.playerOne);
     this.generateDeck(this.playerTwo);
   }
@@ -95,8 +97,8 @@ export class DecksService {
   }
 
   private reset() {
-    this.playerOne = new Player('one');
-    this.playerTwo = new Player('two');
+    this.playerOne = new Player(this.settingsService.playerOneName, 'one');
+    this.playerTwo = new Player(this.settingsService.playerTwoName, 'two');
     this.cups = [[], [], []];
     this.topCards = [null, null, null];
   }

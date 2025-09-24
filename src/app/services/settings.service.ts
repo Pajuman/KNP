@@ -8,4 +8,6 @@ export class SettingsService {
   public cardsRange: 'default' | 'extended' = 'extended';
   public mode: 'tutorial' | 'advanced' | 'expert' = 'tutorial';
   public speed: Speed = Speed.fast;
+  public playerOneName = 'Player one'
+  public playerTwoName = 'Player two';
 }

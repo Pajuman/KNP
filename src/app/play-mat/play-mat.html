@@ -1,12 +1,16 @@
 <button (click)="backToSettings()" class="back-button">Back</button>
+
 <div class="wrapper">
-  <div class="deck" style="position: relative">
+  <div class="deck">
+    <span>{{ settingsService.playerOneName }}</span>
     @for (card of playerOne.deck; track $index) {
-      <app-card #playerOneCard [cardType]="card"
-                [ngStyle]="{
+      <div class="card">
+        <app-card #playerOneCard [cardType]="card"
+                  [ngStyle]="{
                     'z-index': decksService.cardCount - $index,
                     'top': ($index) + 'px',
-                    'left': (3 * $index) - 40 + 'px'}"></app-card>
+                    'left': (3 * $index) - 25 + 'px'}"></app-card>
+      </div>
     }
   </div>
   <div class="row">
@@ -31,12 +35,16 @@
   </div>
   <div>
     <div class="deck">
+      <span>{{ settingsService.playerTwoName }}</span>
+
       @for (card of playerTwo.deck; track $index) {
-        <app-card #playerTwoCard [cardType]="card"
-                  [ngStyle]="{
+        <div class="card">
+          <app-card #playerTwoCard [cardType]="card"
+                    [ngStyle]="{
                     'z-index': decksService.cardCount - $index,
                     'top': ($index) + 'px',
-                    'left': (3 * $index) - 40 + 'px'}"></app-card>
+                    'left': (3 * $index) - 25 + 'px'}"></app-card>
+        </div>
       }
     </div>
   </div>

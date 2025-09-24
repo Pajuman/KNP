@@ -92,7 +92,7 @@ export class PlayMat implements OnInit {
   private renderThrownCard(player: Player, basket: 0 | 1 | 2) {
     const newCardZ = this.decksService.putNewCardOnTop ? ++this.z : this.z;
 
-    const playerElements = player.name === 'one' ? this.playerOneCardElements() : this.playerTwoCardElements();
+    const playerElements = player.id === 'one' ? this.playerOneCardElements() : this.playerTwoCardElements();
     const cardEl = playerElements[player.topCardIndex].nativeElement;
     const [targetX, targetY, targetRotate] = this.animationService.animateCard(player, basket);
     this.renderer.setStyle(cardEl, 'z-index', newCardZ);
@@ -112,7 +112,7 @@ export class PlayMat implements OnInit {
     const card = this.topCards[basketIndex] as CardType;
     const cardId = card.id;
     const player = card.player
-    const cardElements = player.name === 'one' ? this.playerOneCardElements() : this.playerTwoCardElements();
+    const cardElements = player.id === 'one' ? this.playerOneCardElements() : this.playerTwoCardElements();
     const cardEl = cardElements[cardId].nativeElement;
     this.renderer.setStyle(cardEl, 'z-index', ++this.z);
   };
