@@ -14,7 +14,7 @@
   justify-content: center;
 
   &.normal {
-    border-radius: 2rem;
+    border-radius: 0.5rem;
     border: 2px black solid;
     width: 200px;
     height: 200px;
@@ -22,7 +22,7 @@
   }
 
   &.small {
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     border: 1px black solid;
     width: 100px;
     height: 100px;

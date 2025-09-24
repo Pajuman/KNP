@@ -3,11 +3,15 @@ import {FormsModule} from '@angular/forms';
 import {SettingsService} from '../services/settings.service';
 import {Speed} from '../interfaces';
 import {Router} from '@angular/router';
+import {RulesDialog} from '../dialog/rules-dialog.component';
+import {NgClass} from '@angular/common';
 
 @Component({
   selector: 'app-initial-settings',
   imports: [
-    FormsModule
+    FormsModule,
+    RulesDialog,
+    NgClass
   ],
   templateUrl: './initial-settings.component.html',
   styleUrl: './initial-settings.component.scss'
